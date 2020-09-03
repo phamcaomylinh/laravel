@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        dd(BlogPost::all());
+        return view('posts.index', ['posts' => BlogPost::all()]);
     }
 
     /**
@@ -24,8 +24,31 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        dd(BlogPost::find($id));
+        $request->session()->reflash();
+        return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validationData = $request->validate([
+            'title' => 'required|max:100',
+            'content' => 'required'
+        ]);
+
+        $blogPost = new BlogPost();
+        $blogPost->title = $request->input('title');
+        $blogPost->content = $request->input('content');
+        $blogPost->save();
+
+        $request->session()->flash('status', 'Blog Post was created');
+
+        return redirect()->route('posts.show', ['post' => $blogPost->id]);
     }
 }
