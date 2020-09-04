@@ -3,23 +3,9 @@
 @section('content')
     <form method="POST" action={{ route('posts.store') }}>
         @csrf
-        <div>
-            <label for="title">Title</label>
-            <input type="text" name="title" value={{ old('title') }}>
-        </div>
-        <div>
-            <label for="content">Content</label>
-            <input type="text" name="content" value={{ old('content') }}>
-        </div>
-        @if ($errors->any())
-            <div>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li style="color:red;">{{ $error }}</li>  
-                    @endforeach
-                </ul>
-            </div>       
-        @endif
+
+        @include('posts._form')
+
         <button type="submit">Create</button>
     </form>
 @endsection('content')
