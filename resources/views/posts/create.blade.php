@@ -5,11 +5,11 @@
         @csrf
         <div>
             <label for="title">Title</label>
-            <input type="text" name="title">
+            <input type="text" name="title" value={{ old('title') }}>
         </div>
         <div>
             <label for="content">Content</label>
-            <input type="text" name="content">
+            <input type="text" name="content" value={{ old('content') }}>
         </div>
         @if ($errors->any())
             <div>
